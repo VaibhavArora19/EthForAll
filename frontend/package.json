@@ -13,6 +13,8 @@
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
+    "@web3modal/ethereum": "^2.1.1",
+    "@web3modal/react": "^2.1.1",
     "autoprefixer": "^10.4.13",
     "daisyui": "^2.50.0",
     "eslint": "8.33.0",
