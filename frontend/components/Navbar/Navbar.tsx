@@ -2,12 +2,13 @@ import Link from "next/link";
 import classes from "./Navbar.module.css";
 
 import { Web3Button } from "@web3modal/react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-
+    const router = useRouter();
     return (
       <div className={classes.navbar}>
-        <div className={classes.logo}>
+        <div className={`${classes.logo} cursor-pointer`} onClick={() => {router.push("/")}}>
           {/*<Image src="text.png" alt="App logo"/>*/}
           <h1>Appname</h1>
         </div>

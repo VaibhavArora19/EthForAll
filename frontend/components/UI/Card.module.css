@@ -1,0 +1,18 @@
+.card {
+    display: inline-block;
+    margin: 10px 14px;
+}
+
+.thumbnail {
+    border-radius: 20px;
+}
+
+.details h4{
+    margin:0 20px 5px;
+}
+
+.details p{
+    color:rgb(190, 188, 188);
+    font-size: 0.9rem;
+    margin:0 20px 0;
+}
