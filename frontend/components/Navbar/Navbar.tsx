@@ -7,11 +7,11 @@ import { useRouter } from "next/router";
 const Navbar = () => {
     const router = useRouter();
     return (
-      <div className={classes.navbar}>
-        <div className={`${classes.logo} cursor-pointer`} onClick={() => {router.push("/")}}>
-          {/*<Image src="text.png" alt="App logo"/>*/}
-          <h1>Appname</h1>
-        </div>
+        <div className={classes.navbar}>
+          <div className={`${classes.logo} cursor-pointer`} onClick={() => {router.push("/")}}>
+            {/*<Image src="text.png" alt="App logo"/>*/}
+            <h1 className="text-lg font-semibold mt-8 ml-4">WEB3TV</h1>
+          </div>
         <div className={classes.links}>
           <Link href="/upload" className={classes.link}>
             <h2>
