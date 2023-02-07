@@ -7,14 +7,13 @@
 .link {
     text-decoration: none;
     color: white;
+    margin-bottom: 50px;
 }
 
 .sidebar h2 {
     margin-top: 20px;
-    font-size: 1.5rem;
 }
 
 .avatar {
-    margin-top: 20px;
-    display: inline-block;
+    display: flex;
 }

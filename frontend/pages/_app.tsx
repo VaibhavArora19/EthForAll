@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <Navbar />
     <div style={{display:"flex", flexDirection:"row"}}>
       <Sidebar />
-      <Component {...pageProps} />
+        <Component {...pageProps} />
     </div>
     <Web3Modal 
         themeColor="blackWhite"
