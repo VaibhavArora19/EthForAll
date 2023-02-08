@@ -13,6 +13,11 @@ const Navbar = () => {
             <h1 className="text-lg font-semibold mt-8 ml-4">WEB3TV</h1>
           </div>
         <div className={classes.links}>
+          <Link href="/golive" className={`${classes.link} `}>
+            <h2 className="text-red-600">
+            <i className="fa-regular fa-tower-broadcast"></i>
+            </h2>
+          </Link>
           <Link href="/upload" className={classes.link}>
             <h2>
               <i className="fa-sharp fa-solid fa-plus"></i>
