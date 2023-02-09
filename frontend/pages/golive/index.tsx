@@ -1,7 +1,29 @@
+import {FormEvent} from "react";
+
 const GoLive = () => {
+
+    const createStreamHandler = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const response = await fetch('https://livepeer.studio/api/stream', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer 4402a176-ddeb-4ecc-bfd6-ea9be0466f11`
+            },
+            body:JSON.stringify({
+                "name": 'God of War'
+            })
+        })
+        const data = await response.json();
+
+        console.log(response);
+    };
+
+
     return (
         <div className="ml-60 mt-10 w-6/12">
-            <form>
+            <form onSubmit={createStreamHandler}>
                 <label className="block mb-4">
                     <span className="text-md">Name</span>
                 </label>
