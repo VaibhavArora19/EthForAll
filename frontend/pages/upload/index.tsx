@@ -14,6 +14,7 @@ const Upload = () => {
   const [thumbnail, setThumbnail] = useState<any>();
 
   const onDrop = useCallback((acceptedFiles: Blob[]) => {
+    console.log('files are', acceptedFiles);
     if (
       acceptedFiles[0].type === "image/jpeg" ||
       acceptedFiles[0].type === "image/jpg" ||

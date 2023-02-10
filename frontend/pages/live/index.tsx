@@ -7,11 +7,9 @@ const Live = (props: any) => {
 
     return (
         <div className={`${styles.live} grid md:grid-cols-4 sm:grid-cols-3`}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {props.streams.map((stream: {id: string, name: string}) => {
+                return <Card key={stream.id} name={stream.name}/>
+            })}
         </div>
     )
 };

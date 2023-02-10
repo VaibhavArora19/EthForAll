@@ -12,6 +12,8 @@ export default function Document() {
       </Head>
       <body>
         <Main />
+        <div id="backdrop-root"/>
+        <div id="overlay-root"/>
         <NextScript />
       </body>
     </Html>

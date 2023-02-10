@@ -2,7 +2,11 @@ import Image from "next/image";
 
 import classes from "./Card.module.css";
 
-const Card = () => {
+type Iprops = {
+    name: string;
+}
+
+const Card = (props: Iprops) => {
     return (
         <div className={classes.card}>
             <div>
@@ -10,7 +14,7 @@ const Card = () => {
             </div>  
             <div className={classes.details}>
                 <h4>
-                    GTA V : On steroids🔥
+                    {props.name}🔥
                 </h4>
                 <p>
                     0xvaibhav.lens
