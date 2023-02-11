@@ -11,17 +11,14 @@ export default function Home() {
       <Theatre />
         <Info title="Live"/>
         <div className="grid md:grid-cols-4 sm:grid-cols-3">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
+        <Card name="vaibhav"/>
       </div>
       </div>
     </>

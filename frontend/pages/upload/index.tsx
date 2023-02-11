@@ -2,7 +2,8 @@ import Phone from "../../components/UI/Phone";
 import UploadForm from "../../components/UI/UploadForm";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
+import {DataContext} from "@/context/DataContext"
 
 import styles from "../../styles/Upload.module.css";
 
@@ -12,6 +13,7 @@ const Upload = () => {
   
   const [video, setVideo] = useState<any>();
   const [thumbnail, setThumbnail] = useState<any>();
+  const ctx = useContext(DataContext);
 
   const onDrop = useCallback((acceptedFiles: Blob[]) => {
     console.log('files are', acceptedFiles);
@@ -24,7 +26,9 @@ const Upload = () => {
     ) {
       setIsThumbnailAvailable(true);
       setThumbnail(acceptedFiles[0]);
+      ctx?.sharedState.setUploadThumbnail(acceptedFiles[0]);
     } else {
+      ctx?.sharedState.setUploadVideo(acceptedFiles[0]);
       setVideo(acceptedFiles[0]);
       setIsVideoAvailable(true);
     }
@@ -45,7 +49,7 @@ const Upload = () => {
         </div>
       ) : (
         <div className={styles.video}>
-          <UploadForm />
+          <UploadForm video={video} />
           <div className={styles.preview}>
             <iframe
               width={490}
