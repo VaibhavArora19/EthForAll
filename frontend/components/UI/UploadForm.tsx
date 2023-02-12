@@ -1,26 +1,30 @@
 import { useRef } from "react";
 import classes from "./UploadForm.module.css";
+import { useContext } from "react";
+import { DataContext } from "@/context/DataContext";
+import { Upload } from "@/ipfs";
+import { uploadAsset } from "@/livepeer";
 
 type Iprops = {
   video: any,
 };
+
 const UploadForm = (props: Iprops) => {
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const flowRateRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+  const ctx = useContext(DataContext);
 
   const createVideoHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
 
-    const data = await fetch('https://livepeer.studio/api/asset/request-upload', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer 4402a176-ddeb-4ecc-bfd6-ea9be0466f11'
-      },
-      body: JSON.stringify({
-        name: titleRef?.current?.value
-      })
-    })
+    await Upload(ctx.sharedState.video, ctx.sharedState.thumbnail);
+
+    if(titleRef.current?.value){
+      await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
+    }
+
   }
 
   return (

@@ -28,11 +28,12 @@ const GoLive = () => {
                 'Authorization': `Bearer 4402a176-ddeb-4ecc-bfd6-ea9be0466f11`
             },
             body:JSON.stringify({
-                "name": 'God of War'
+                name: nameRef?.current?.value
             })
         })
         const data = await response.json();
 
+        setStreamKey(data.streamKey);
         //call the contract function here
         console.log(data);
         console.log('dd', data.streamKey, data.playbackId);

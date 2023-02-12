@@ -1,4 +1,9 @@
 const Alert = (props: {streamKey: string}) => {
+  
+  const showStreamHandler = () => {
+
+  };
+  
   return (
       <div className="alert shadow-lg z-10 fixed w-5/12 mb-10">
         <div>
@@ -16,12 +21,12 @@ const Alert = (props: {streamKey: string}) => {
             ></path>
           </svg>
           <div>
-            <h3 className="font-bold">New message!</h3>
-            <div className="text-xs">You have 1 unread message</div>
+            <h3 className="font-bold">Stream Key: {props.streamKey}</h3>
+            <div className="text-xs">Stream url: {`srt://rtmp.livepeer.com:2935?streamid=${props.streamKey}`}</div>
           </div>
         </div>
         <div className="flex-none">
-          <button className="btn btn-sm">Done</button>
+          <button className="btn btn-sm" onClick={showStreamHandler}>Done</button>
         </div>
       </div>
   );
