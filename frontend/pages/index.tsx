@@ -2,20 +2,31 @@ import styles from '../styles/Home.module.css'
 import Card from '../components/UI/Card'
 import Theatre from "../components/Theatre/Theatre"
 import Info from '@/components/UI/Info'
-import { Retrieve } from '@/ipfs';
 import { useEffect, useState } from 'react';
 import { useSigner, useContract } from 'wagmi';
 import { contractAddress, ABI } from '@/constants';
 
-export default function Home(props: any) {
+export default function Home() {
   const [videos, setVideos] = useState([]);
-  const [thumbnails, setThumbnails] = useState([]);
   const {data:signer} = useSigner();
   const contract = useContract({
     address: contractAddress,
     abi: ABI,
     signerOrProvider: signer
   });
+
+  useEffect(() => {
+    
+    if(signer) {
+
+      (async function(){
+        const assets = await contract?.getAllVideos();
+        console.log('assets', assets)
+        setVideos(assets);
+      })();
+    }
+
+  }, [signer]);
 
 
   return (
@@ -24,27 +35,11 @@ export default function Home(props: any) {
       <Theatre />
         <Info title="Live"/>
         <div className="grid md:grid-cols-4 sm:grid-cols-3">
-        {props.assets && props.assets.map((asset: {id: string, name: string}) => {
-          return <Card key={asset.id} name={asset.name}/>
+        {videos.length > 0 && videos.map((asset: {ID: string, name: string, thumbnailCid: string}) => {
+          return <Card key={asset.ID} id={asset.ID} name={asset.name} thumbnail={asset.thumbnailCid} />
         })}
       </div>
       </div>
     </>
   )
-}
-
-export async function getServerSideProps() {
-  const data = await fetch('https://livepeer.studio/api/asset', {
-    headers: {
-      'Authorization': `Bearer ${process.env.NEXT_PUBLIC_LIVEPEER_KEY}`
-    }
-  });
-
-  const response = await data.json();
-
-  return {
-    props: {
-      assets: response
-    }
-  }
 }

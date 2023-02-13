@@ -28,12 +28,13 @@ const UploadForm = (props: Iprops) => {
   const createVideoHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploading(true);
-    const cid = await Upload(ctx.sharedState.video, ctx.sharedState.thumbnail);
+    const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
+    const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
 
     if(titleRef.current?.value){
       const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
 
-      await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', cid, flowRateRef.current?.value, priceRef.current?.value);
+      await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
     }
 
     setUploading(false);

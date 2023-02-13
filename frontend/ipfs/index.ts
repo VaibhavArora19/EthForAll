@@ -1,10 +1,9 @@
 import { Web3Storage } from "web3.storage";
 
-export const Upload = async (video: any, thumbnail: any) => {
+export const Upload = async (name: string, content: any) => {
 
     const files = [
-        new File([thumbnail], 'thumbnail'),
-        new File([video], 'video')
+        new File([content], name)
     ];
 
     if(process.env.NEXT_PUBLIC_IPFS_TOKEN) {
