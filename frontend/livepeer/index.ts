@@ -12,7 +12,7 @@ export const uploadAsset = async (name: string, video: any) => {
         })
       });
 
-      const {tusEndpoint} = await data.json();
+      const {tusEndpoint, asset} = await data.json();
 
       const upload = new tus.Upload(video, {
         endpoint: tusEndpoint,
@@ -39,4 +39,6 @@ export const uploadAsset = async (name: string, video: any) => {
         upload.resumeFromPreviousUpload(previousUploads[0]);
         }
         upload.start();
+
+        return asset.id;
 };

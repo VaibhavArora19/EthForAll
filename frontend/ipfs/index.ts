@@ -31,6 +31,8 @@ export const Retrieve = async (cid: string) => {
         }
 
         console.log('res is', res);
+        const files = await res.files();
+        return files;
     }
 
 }

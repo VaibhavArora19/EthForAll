@@ -1,30 +1,42 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import classes from "./UploadForm.module.css";
 import { useContext } from "react";
 import { DataContext } from "@/context/DataContext";
 import { Upload } from "@/ipfs";
 import { uploadAsset } from "@/livepeer";
+import { useContract, useSigner } from "wagmi";
+import { contractAddress, ABI } from "@/constants";
 
 type Iprops = {
   video: any,
 };
 
 const UploadForm = (props: Iprops) => {
+  const [uploading, setUploading] = useState<boolean>(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const flowRateRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const ctx = useContext(DataContext);
+  const {data: signer} = useSigner();
+  const contract = useContract({
+    address: contractAddress,
+    abi: ABI,
+    signerOrProvider: signer
+  })
 
   const createVideoHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    await Upload(ctx.sharedState.video, ctx.sharedState.thumbnail);
+    setUploading(true);
+    const cid = await Upload(ctx.sharedState.video, ctx.sharedState.thumbnail);
 
     if(titleRef.current?.value){
-      await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
+      const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
+
+      await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', cid, flowRateRef.current?.value, priceRef.current?.value);
     }
 
+    setUploading(false);
   }
 
   return (
@@ -83,7 +95,7 @@ const UploadForm = (props: Iprops) => {
         </div>
         </div>
       </div>
-      <button className="btn btn-primary btn-wide ml-36 mt-4 text-white">Upload Video</button>
+      <button className={`btn btn-primary btn-wide ml-36 mt-4 text-white ${uploading && 'loading'}`}>{uploading ? "Uploading..." : "Upload Video"}</button>
     </form>
   );
 };
