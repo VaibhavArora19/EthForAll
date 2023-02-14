@@ -1,10 +1,20 @@
 import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
+import VideoInfo from "@/components/VideoPlayer/VideoInfo";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useContract, useSigner } from "wagmi";
+import { contractAddress, ABI } from "@/constants";
 
 const Play = () => {
     const [asset, setAsset] = useState<any>({});
+    const [videoDetails, setVideoDetails] = useState<any>({});
     const router = useRouter();
+    const {data: signer} = useSigner();
+    const contract = useContract({
+        address: contractAddress,
+        abi: ABI,
+        signerOrProvider: signer
+    });
 
     const {id} = router.query;
 
@@ -17,16 +27,24 @@ const Play = () => {
                 }
             })
             const response = await data.json();
+            
+            if(signer) {
+                const videoInfo = await contract?.getSingleVideo(id);
+                setVideoDetails(videoInfo);
+            }
             setAsset(response);
         })();
 
-    }, []);
+    }, [signer]);
 
 
     return (
-        <div className="mt-6 ml-60 w-full">
-            <div className="w-9/12">
+        <div className="ml-24 w-9/12">
+            <div>
                 <VideoPlayer playbackId={asset.playbackId} name={asset.name}/>
+            </div>
+            <div className="mt-4">
+                <VideoInfo name={asset.name} description={videoDetails.description} />
             </div>
         </div>
     ) 

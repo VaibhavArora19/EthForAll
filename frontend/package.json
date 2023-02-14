@@ -13,6 +13,7 @@
     "@arcana/auth-react": "^0.0.3",
     "@livepeer/react": "^2.2.0",
     "@next/font": "13.1.6",
+    "@pushprotocol/restapi": "^0.5.0",
     "@superfluid-finance/sdk-core": "^0.6.1",
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",

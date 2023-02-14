@@ -3,7 +3,7 @@ import { Player } from "@livepeer/react";
 const VideoPlayer = (props: {playbackId: string, name: string}) => {
     return (
         <div>
-            <Player title={props.name} playbackId={props.playbackId} showPipButton showLoadingSpinner showTitle aspectRatio="16to9"/>
+            <Player title={props.name} playbackId={props.playbackId} showPipButton showLoadingSpinner showTitle aspectRatio="21to9"/>
         </div>
     )
 };
