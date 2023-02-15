@@ -1,11 +1,12 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import classes from "./UploadForm.module.css";
 import { useContext } from "react";
 import { DataContext } from "@/context/DataContext";
 import { Upload } from "@/ipfs";
 import { uploadAsset } from "@/livepeer";
-import { useContract, useSigner } from "wagmi";
+import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
+import { sendNotification } from "@/push";
 
 type Iprops = {
   video: any,
@@ -13,10 +14,12 @@ type Iprops = {
 
 const UploadForm = (props: Iprops) => {
   const [uploading, setUploading] = useState<boolean>(false);
+  const [subscribers, setSubscribers] = useState<Array<string>>([]);
   const titleRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const flowRateRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+  const {address} = useAccount();
   const ctx = useContext(DataContext);
   const {data: signer} = useSigner();
   const contract = useContract({
@@ -25,19 +28,39 @@ const UploadForm = (props: Iprops) => {
     signerOrProvider: signer
   })
 
+  useEffect(() => {
+
+    if(signer) {
+      (async function() {
+          const totalSubscribers = await contract?.getSubscribers(address);
+          console.log('totalSubscribers', totalSubscribers)
+          setSubscribers(totalSubscribers);
+        })()
+      } 
+
+  }, [signer]);
+
   const createVideoHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploading(true);
-    const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
-    const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
+    // const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
+    // const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
 
     if(titleRef.current?.value){
-      const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
+      // const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
 
-      await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
+      // const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
+      // await tx.wait();
+      console.log(subscribers.length);
+      console.log(descriptionRef.current?.value)
+      console.log(address);
+      if(subscribers.length > 0 && descriptionRef.current?.value !== undefined && address){
+        console.log('check');
+        sendNotification(false, address, titleRef.current?.value, descriptionRef.current?.value, subscribers, signer);
+      }
+      setUploading(false);
     }
 
-    setUploading(false);
   }
 
   return (

@@ -28,6 +28,8 @@ contract EthForAll {
     LiveStream[] public streams;
     video[] public videos;
 
+    mapping(address => address[]) public subscribers;
+
     mapping(string => video) public videoById;
 
     function addStream(string memory name, string memory description, string memory streamId, uint flowRate, uint price) public {
@@ -52,6 +54,13 @@ contract EthForAll {
 
     function getAllStreams () public view returns(LiveStream[] memory) {
         return streams;
+    }  
+
+    function addSubscriber(address creator) public {
+        subscribers[creator].push(msg.sender);
     }
 
+    function getSubscribers(address creator) public view returns(address[] memory) {
+        return subscribers[creator];
+    }
 }

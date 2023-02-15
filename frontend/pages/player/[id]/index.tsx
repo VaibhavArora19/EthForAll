@@ -44,7 +44,7 @@ const Play = () => {
                 <VideoPlayer playbackId={asset.playbackId} name={asset.name}/>
             </div>
             <div className="mt-4">
-                <VideoInfo name={asset.name} description={videoDetails.description} />
+                <VideoInfo name={asset.name} description={videoDetails.description} creator={videoDetails.creator}/>
             </div>
         </div>
     ) 

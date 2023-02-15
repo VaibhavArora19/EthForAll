@@ -23,7 +23,7 @@ const Navbar = () => {
               <i className="fa-sharp fa-solid fa-plus"></i>
             </h2>
           </Link>
-          <Link href="#" className={classes.link}>
+          <Link href="/notifications" className={classes.link}>
             <h2>
               <i className="fa-regular fa-bell"></i>
             </h2>

@@ -1,4 +1,4 @@
-export const contractAddress = '0xdFC21507A9C15832e6A9320A18eBd1a792144dE2';
+export const contractAddress = '0xBC3351d229a16E266183B0f84eA82204B7c5C65C';
 
 export const ABI = [
   {
@@ -30,6 +30,19 @@ export const ABI = [
       }
     ],
     "name": "addStream",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      }
+    ],
+    "name": "addSubscriber",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -256,6 +269,25 @@ export const ABI = [
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      }
+    ],
+    "name": "getSubscribers",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
@@ -291,6 +323,30 @@ export const ABI = [
       {
         "internalType": "address",
         "name": "creator",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "subscribers",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
         "type": "address"
       }
     ],
@@ -415,4 +471,4 @@ export const ABI = [
     "stateMutability": "view",
     "type": "function"
   }
-];
+]
