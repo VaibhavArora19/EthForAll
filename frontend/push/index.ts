@@ -1,6 +1,6 @@
-import ethers from "ethers";
+import {ethers} from "ethers";
 import * as PushAPI from "@pushprotocol/restapi";
-const PK = process.env.PRIVATE_KEY;
+const PK = process.env.NEXT_PUBLIC_PRIVATE_KEY;
 
 const Pkey = `0x${PK}`;
 export const optIn = async (userAddress: string, _signer: any) => {
@@ -23,6 +23,7 @@ export const optIn = async (userAddress: string, _signer: any) => {
 
 export const sendNotification = async (isLive: boolean, address: string, payloadTitle: string, payloadBody: string, subscribers: string[], _signer: any) => {
 
+        const signer = new ethers.Wallet(Pkey);
         let title;
         if(isLive) {
             title = `${address} is Live now.`
@@ -30,17 +31,24 @@ export const sendNotification = async (isLive: boolean, address: string, payload
             title = `${address} posted a new video`
         }
 
-        let totalSubscribers = subscribers.map((subscriber) => {
+        let totalSubscribers: string[] | string = subscribers.map((subscriber) => {
             return `eip155:80001:${subscriber}`
         })
+        let type = 4;
+
+        if(totalSubscribers.length === 1){
+            totalSubscribers = totalSubscribers[0];
+            type = 3;
+        }
          
         try {
+        
         const apiResponse = await PushAPI.payloads.sendNotification({
-            signer: _signer,
-            type: 3,
+            signer: signer,
+            type: type,
             identityType: 2,
             notification:{
-                title,
+                title: title,
                 body: 'Watch now',
             },
             payload: {
@@ -54,7 +62,7 @@ export const sendNotification = async (isLive: boolean, address: string, payload
             env: 'staging'
         }) 
 
-        console.log('API Response', apiResponse);
+        
     }catch(err) {
         console.error('Error ',err);
     }

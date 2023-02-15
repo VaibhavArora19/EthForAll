@@ -1,18 +1,28 @@
 import { getNotifications } from "@/push";
-import { useEffect } from "react";
+import { useEffect, useState } from "react"
+import { useAccount } from "wagmi";
+import NotificationCard from "@/components/UI/NotificationCard"
 
 const Notifications = () => {
-    
+    const {address} = useAccount();
+    const [notifications, setNotifications] = useState<any>([]);
     useEffect(() => {
 
-        (async function() {
-            const notifications = await getNotifications('0x5e97BBfb258fBb110231c4f01C693ef6BA9553a6');
-            console.log('notifi', notifications);
-        })();
+        if(address) {
+            (async function() {
+                const allNotifications = await getNotifications(address);
+                setNotifications(notifications);
+            })();
+        }
     }, []);
 
     return (
-        <div></div>
+        <div>
+            {notifications.map((notification:any) => {
+                return <NotificationCard title={notification.title} icon={notification.icon} message={notification.message}
+                notificationTitle={notification.notification.title} notificationMessage={notification.notification.body}/>
+            })}
+        </div>
     )
 };
 

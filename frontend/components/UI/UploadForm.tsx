@@ -43,19 +43,16 @@ const UploadForm = (props: Iprops) => {
   const createVideoHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUploading(true);
-    // const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
-    // const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
+    const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
+    const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
 
     if(titleRef.current?.value){
-      // const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
+      const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
 
-      // const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
-      // await tx.wait();
-      console.log(subscribers.length);
-      console.log(descriptionRef.current?.value)
-      console.log(address);
-      if(subscribers.length > 0 && descriptionRef.current?.value !== undefined && address){
-        console.log('check');
+      const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
+      await tx.wait();
+   
+      if(subscribers.length > 0 && descriptionRef.current?.value !== undefined && address){;
         sendNotification(false, address, titleRef.current?.value, descriptionRef.current?.value, subscribers, signer);
       }
       setUploading(false);
