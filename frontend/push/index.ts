@@ -53,7 +53,7 @@ export const sendNotification = async (isLive: boolean, address: string, payload
             },
             payload: {
                 title: payloadTitle,
-                body: payloadBody,
+                body: `${address} posted a new video`,
                 cta: '',
                 img: ''
             },
