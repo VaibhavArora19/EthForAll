@@ -47,7 +47,7 @@ const Play = () => {
 
     return (
         <div className="ml-24 w-9/12">
-            {!ctx.sharedState.isSupporting && <SupportModal onConfirm={modalHandler}/> }
+            {ctx.sharedState.isSupporting && <SupportModal onConfirm={modalHandler}/> }
             <div>
                 <VideoPlayer playbackId={asset.playbackId} name={asset.name}/>
             </div>
