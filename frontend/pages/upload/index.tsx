@@ -43,7 +43,7 @@ const Upload = () => {
           <Phone />
           <div {...getRootProps({ className: styles.dropzone })}>
             <input {...getInputProps()} />
-            <p>Drag 'n' drop to upload the video</p>
+            <p>Drag and drop to upload the video</p>
             <button className="btn btn-info">or choose video</button>
           </div>
         </div>

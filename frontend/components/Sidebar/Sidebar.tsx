@@ -43,7 +43,7 @@ const Sidebar = () => {
           <div className="mt-12">
             <h1 className="text-lg font-semibold">Following</h1>
             {followers.map(follower => {
-              return <div className="flex gap-3 mb-4 mt-4">
+              return <div key={follower.name} className="flex gap-3 mb-4 mt-4">
                 <Image src="/avatar.png" width={32} height={32} alt="avatar" className="rounded-md"/>
                     <h1>{follower.name}</h1>
                 </div>
