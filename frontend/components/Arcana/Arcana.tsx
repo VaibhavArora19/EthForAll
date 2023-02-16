@@ -1,5 +1,11 @@
 import { Auth, useAuth } from "@arcana/auth-react";
 import { useRouter } from "next/router";
+import styles from "./Arcana.module.css";
+
+const Backdrop = () => {
+
+    return <div className={styles.backdrop}></div>
+}
 
 const Account = () => {
     const auth = useAuth();
@@ -15,10 +21,8 @@ const Account = () => {
             {
                 auth.loading ? (
                     "Loading..."
-                ) : auth.isLoggedIn ? (
-                    <p>Logged In</p>
-                ) : (
-                    <div>
+                ) :  (
+                    <div className={styles.modal}>
                         <Auth externalWallet={false} theme="dark" onLogin={onLogin}/>
                     </div>
                 )
@@ -27,4 +31,12 @@ const Account = () => {
     )
 };
 
-export default Account;
+const Modal = () => {
+    return (
+        <div>
+            <Backdrop />
+            <Account />
+        </div>
+    )
+}
+export default Modal;

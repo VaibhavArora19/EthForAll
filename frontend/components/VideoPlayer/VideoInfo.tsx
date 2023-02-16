@@ -1,6 +1,8 @@
 import { optIn } from "@/push";
 import {useContract, useAccount, useSigner } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
+import { useContext } from "react";
+import { DataContext } from "@/context/DataContext";
 
 type Iprops = {
   name: string;
@@ -16,6 +18,7 @@ const VideoInfo = (props: Iprops) => {
     abi: ABI,
     signerOrProvider: signer
   })
+  const ctx = useContext(DataContext);
 
   const subscriptionHandler = async () => {
     if(address && signer){
@@ -24,6 +27,9 @@ const VideoInfo = (props: Iprops) => {
     }
   };
 
+  const modalHandler = () => {
+    ctx.sharedState.modalHandler();
+  }
 
   return (
     <div className="ml-4 flex justify-between">
@@ -32,7 +38,7 @@ const VideoInfo = (props: Iprops) => {
         <p className="mt-2 text-slate-200">{props.description}</p>
       </div>
       <div>
-        <button className="btn btn-info mr-2">
+        <button className="btn btn-info mr-2" onClick={modalHandler}>
         <i className="fa-solid fa-hand-holding-medical"></i>&nbsp;Donate
         </button>
         <button className="btn btn-success" onClick={subscriptionHandler}>Subscribe</button>

@@ -4,6 +4,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useContract, useSigner } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
+import SupportModal from "@/components/Support/Support";
+import { useContext } from "react";
+import { DataContext } from "@/context/DataContext";
 
 const Play = () => {
     const [asset, setAsset] = useState<any>({});
@@ -15,6 +18,7 @@ const Play = () => {
         abi: ABI,
         signerOrProvider: signer
     });
+    const ctx = useContext(DataContext);
 
     const {id} = router.query;
 
@@ -37,9 +41,13 @@ const Play = () => {
 
     }, [signer]);
 
+    const modalHandler = () => {
+        ctx.sharedState.modalHandler();
+    }
 
     return (
         <div className="ml-24 w-9/12">
+            {!ctx.sharedState.isSupporting && <SupportModal onConfirm={modalHandler}/> }
             <div>
                 <VideoPlayer playbackId={asset.playbackId} name={asset.name}/>
             </div>

@@ -5,6 +5,8 @@ import Info from '@/components/UI/Info'
 import { useEffect, useState } from 'react';
 import { useSigner, useContract } from 'wagmi';
 import { contractAddress, ABI } from '@/constants';
+import { useAuth } from '@arcana/auth-react';
+import Modal from '@/components/Arcana/Arcana';
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -14,6 +16,7 @@ export default function Home() {
     abi: ABI,
     signerOrProvider: signer
   });
+  const auth = useAuth();
 
   useEffect(() => {
     
@@ -31,6 +34,7 @@ export default function Home() {
 
   return (
     <>
+      {!auth.isLoggedIn && <Modal />}
       <div className={`${styles.main}`}>
       <Theatre />
         <Info title="Live"/>
