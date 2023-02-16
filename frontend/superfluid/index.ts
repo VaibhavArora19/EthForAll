@@ -92,5 +92,5 @@ export const getFlowInfo = async (sender: string, receiver: string) => {
         providerOrSigner: signer
     });
 
-    console.log(flowInfo);
+    return flowInfo;
 };

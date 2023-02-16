@@ -3,10 +3,11 @@ import { useState, useEffect } from "react";
 import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import { useRouter } from "next/router";
+import { createFlow } from "@/superfluid";
 
 export const Support = () => {
     const [isSuperfluid, setIsSuperfluid] = useState<boolean>(false);
-    const [amount, setAmount] = useState<number | string>(0);
+    const [amount, setAmount] = useState<string>("0");
     const [details, setDetails] = useState<any>([]);
     const {data: signer} = useSigner();
     const {address} = useAccount();
@@ -42,6 +43,11 @@ export const Support = () => {
 
     const donateHandler = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
+
+        if(isSuperfluid) {
+            if(address)
+            await createFlow(address, contractAddress, amount);
+        }
 
     }
 

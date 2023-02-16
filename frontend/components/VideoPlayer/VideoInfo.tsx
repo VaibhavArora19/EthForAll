@@ -1,8 +1,9 @@
 import { optIn } from "@/push";
 import {useContract, useAccount, useSigner } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { DataContext } from "@/context/DataContext";
+import { getFlowInfo, deleteFlow } from "@/superfluid";
 
 type Iprops = {
   name: string;
@@ -12,6 +13,7 @@ type Iprops = {
 
 const VideoInfo = (props: Iprops) => {
   const {address} = useAccount();
+  const [isStreamExist, setIsStreamExist] = useState<boolean>(false);
   const {data: signer} = useSigner();
   const contract = useContract({
     address: contractAddress,
@@ -20,12 +22,32 @@ const VideoInfo = (props: Iprops) => {
   })
   const ctx = useContext(DataContext);
 
+  useEffect(() => {
+
+    if(address){
+      (async function() {
+        const flow = await getFlowInfo(address, contractAddress);
+        if(Number(flow.flowRate) > 0){
+          setIsStreamExist(true);
+        }
+      })();
+      
+  }
+  }, [address]);
+
   const subscriptionHandler = async () => {
     if(address && signer){
       await optIn(address, signer);
       await contract?.addSubscriber(props.creator)
     }
   };
+
+  const cancelStream = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault();
+      if(address) {
+        await deleteFlow(address, contractAddress);
+      }
+  }
 
   const modalHandler = () => {
     ctx.sharedState.modalHandler();
@@ -38,9 +60,14 @@ const VideoInfo = (props: Iprops) => {
         <p className="mt-2 text-slate-200">{props.description}</p>
       </div>
       <div>
-        <button className="btn btn-info mr-2" onClick={modalHandler}>
-        <i className="fa-solid fa-hand-holding-medical"></i>&nbsp;Donate
+        {isStreamExist ? <button className="btn btn-info mr-2" onClick={cancelStream}>
+          Delete Stream
         </button>
+        :
+        <button className="btn btn-info mr-2" onClick={modalHandler}>
+          <i className="fa-solid fa-hand-holding-medical"></i>&nbsp;Donate
+        </button>
+        }
         <button className="btn btn-success" onClick={subscriptionHandler}>Subscribe</button>
       </div>
     </div>

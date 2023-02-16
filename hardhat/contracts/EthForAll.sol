@@ -5,6 +5,7 @@ pragma solidity >=0.7.0 <0.9.0;
 contract EthForAll {
 
     struct LiveStream {
+        string ID;
         string name;
         string description;
         string streamID;
@@ -31,10 +32,12 @@ contract EthForAll {
     mapping(address => address[]) public subscribers;
 
     mapping(string => video) public videoById;
+    mapping(string => LiveStream) public streamById;
 
-    function addStream(string memory name, string memory description, string memory streamId, uint flowRate, uint price) public {
-        LiveStream memory newStream = LiveStream(name, description, streamId, flowRate, price, msg.sender);
+    function addStream(string memory Id, string memory name, string memory description, string memory streamId, uint flowRate, uint price) public {
+        LiveStream memory newStream = LiveStream(Id, name, description, streamId, flowRate, price, msg.sender);
         streams.push(newStream);
+        streamById[Id] = newStream;
     }
 
     //the _id will be same as the livepeer id
@@ -63,4 +66,10 @@ contract EthForAll {
     function getSubscribers(address creator) public view returns(address[] memory) {
         return subscribers[creator];
     }
+
+    function getSingleStream(string memory _id) public view returns(LiveStream memory) {
+        return streamById[_id];
+    }
+    fallback() external payable{}
+    receive() external payable{}
 }

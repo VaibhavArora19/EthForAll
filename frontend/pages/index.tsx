@@ -34,7 +34,7 @@ export default function Home() {
 
   return (
     <>
-      {!auth.isLoggedIn && <Modal />}
+      {auth.isLoggedIn && <Modal />}
       <div className={`${styles.main}`}>
       <Theatre />
         <Info title="Live"/>

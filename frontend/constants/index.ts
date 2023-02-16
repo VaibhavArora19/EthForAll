@@ -1,8 +1,17 @@
-export const contractAddress = '0xBC3351d229a16E266183B0f84eA82204B7c5C65C';
+export const contractAddress = '0xcB059Be3F4fD06f8a2803B6B98b659A5560D7A6f';
 
-export const ABI = [
+export const ABI =[
+  {
+    "stateMutability": "payable",
+    "type": "fallback"
+  },
   {
     "inputs": [
+      {
+        "internalType": "string",
+        "name": "Id",
+        "type": "string"
+      },
       {
         "internalType": "string",
         "name": "name",
@@ -101,6 +110,11 @@ export const ABI = [
     "outputs": [
       {
         "components": [
+          {
+            "internalType": "string",
+            "name": "ID",
+            "type": "string"
+          },
           {
             "internalType": "string",
             "name": "name",
@@ -208,6 +222,62 @@ export const ABI = [
         "type": "string"
       }
     ],
+    "name": "getSingleStream",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "ID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "description",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "streamID",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "flowRate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "creator",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct EthForAll.LiveStream",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_id",
+        "type": "string"
+      }
+    ],
     "name": "getSingleVideo",
     "outputs": [
       {
@@ -288,6 +358,55 @@ export const ABI = [
   {
     "inputs": [
       {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "streamById",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "ID",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "streamID",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "flowRate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
@@ -295,6 +414,11 @@ export const ABI = [
     ],
     "name": "streams",
     "outputs": [
+      {
+        "internalType": "string",
+        "name": "ID",
+        "type": "string"
+      },
       {
         "internalType": "string",
         "name": "name",
@@ -470,5 +594,9 @@ export const ABI = [
     ],
     "stateMutability": "view",
     "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]
