@@ -99,7 +99,7 @@ const UploadForm = (props: Iprops) => {
         <select ref={orgRef} className="select select-bordered w-full bg-slate-700 max-w-xl">
           <option disabled selected >Select Org</option>
           {options.map(option => {
-            return <option>{option}</option>
+            return <option key={option}>{option}</option>
           })}
         </select>
         </div>

@@ -65,7 +65,7 @@ const GoLive = () => {
                 <select ref={orgRef} className="select select-bordered w-full max-w-2xl bg-neutral-700">
                     <option disabled selected >Select Org</option>
                         {options.map(option => {
-                            return <option>{option}</option>
+                            return <option key={option}>{option}</option>
                 })}
                 </select>
                 </div>
