@@ -1,13 +1,15 @@
-import {FormEvent, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import { useRef } from "react";
-import { useContract, useSigner } from "wagmi";
+import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import Alert from "@/components/UI/Alert";
 import { ethers } from "ethers";
 import { options } from "@/constants";
+import { sendNotification } from "@/push";
 
 const GoLive = () => {
     const {data:signer} = useSigner();
+    const [subscribers, setSubscribers] = useState<Array<string>>([]);
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
     const orgRef = useRef<HTMLSelectElement>(null);
@@ -18,8 +20,20 @@ const GoLive = () => {
         abi: ABI,
         signerOrProvider: signer
     });
+    const {address} = useAccount();
     const [streamKey, setStreamKey] = useState<string>('');
     const [id, setId] = useState<string>('');
+
+    useEffect(() => {
+
+        if(signer) {
+            (async function() {
+                const totalSubscribers = await contract?.getSubscribers(address);
+                setSubscribers(totalSubscribers)
+            })();
+        }
+
+    }, [signer]);
 
 
     const createStreamHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -40,6 +54,9 @@ const GoLive = () => {
             
             await contract?.addStream(data.id, data.name, descriptionRef.current?.value, orgRef.current?.value, data.id, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
         }    
+        if(subscribers.length > 0 && nameRef.current?.value && descriptionRef.current?.value !== undefined && address){;
+            sendNotification(true, address, nameRef.current?.value, descriptionRef.current?.value, subscribers, signer);
+        }
         setStreamKey(data.streamKey);
         setId(data.id);
 
