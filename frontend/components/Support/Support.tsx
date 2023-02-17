@@ -4,6 +4,7 @@ import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import { useRouter } from "next/router";
 import { createFlow } from "@/superfluid";
+import { ethers } from "ethers";
 
 export const Support = () => {
     const [isSuperfluid, setIsSuperfluid] = useState<boolean>(false);
@@ -27,7 +28,7 @@ export const Support = () => {
                 if(isSuperfluid) {
                     setAmount(videoDetails.flowRate.toString());
                 }else{
-                    setAmount(videoDetails.price.toString());
+                    setAmount(ethers.utils.formatEther(videoDetails.price.toString()));
                 }
                 setDetails(videoDetails);
             })();
@@ -47,6 +48,14 @@ export const Support = () => {
         if(isSuperfluid) {
             if(address)
             await createFlow(address, contractAddress, amount);
+        }else {
+            if(address){
+                await signer?.sendTransaction({
+                    from: address,
+                    to: contractAddress,
+                    value: ethers.utils.parseEther(amount)
+                })
+            }
         }
 
     }

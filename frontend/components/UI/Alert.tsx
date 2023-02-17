@@ -1,7 +1,10 @@
-const Alert = (props: {streamKey: string}) => {
-  
-  const showStreamHandler = () => {
+import { useRouter } from "next/router";
 
+const Alert = (props: {streamKey: string, id: string}) => {
+  const router = useRouter();
+
+  const showStreamHandler = () => {
+    router.push(`/player/${props.id}?isLive=true`)
   };
   
   return (

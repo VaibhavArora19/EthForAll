@@ -21,8 +21,28 @@ const Play = () => {
     const ctx = useContext(DataContext);
 
     const {id} = router.query;
+    const {isLive} = router.query;
+
 
     useEffect(() => {
+
+        if(isLive === "true"){
+            (async function(){
+                const data = await fetch(`https://livepeer.studio/api/stream/${id}`, {
+                    headers: {
+                        'Authorization': 'Bearer 4402a176-ddeb-4ecc-bfd6-ea9be0466f11'
+                    }
+                })
+                
+                const response = await data.json();
+                console.log(response);  
+                if(signer){
+                    const videoInfo = await contract?.getSingleStream(id);
+                    setVideoDetails(videoInfo);
+                }
+                setAsset(response);
+            })();
+        }else{
 
         (async function() {
             const data = await fetch(`https://livepeer.studio/api/asset/${id}`, {
@@ -39,7 +59,8 @@ const Play = () => {
             setAsset(response);
         })();
 
-    }, [signer]);
+    }
+    }, [signer, isLive]);
 
     const modalHandler = () => {
         ctx.sharedState.modalHandler();

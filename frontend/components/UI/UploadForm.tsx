@@ -7,6 +7,7 @@ import { uploadAsset } from "@/livepeer";
 import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import { sendNotification } from "@/push";
+import { ethers } from "ethers";
 
 type Iprops = {
   video: any,
@@ -46,10 +47,10 @@ const UploadForm = (props: Iprops) => {
     const thumbnailCid = await Upload(titleRef.current?.value + "thumbnail", ctx.sharedState.thumbnail);
     const videoCid = await Upload(titleRef.current?.value + "video", ctx.sharedState.video);
 
-    if(titleRef.current?.value){
+    if(titleRef.current?.value && priceRef.current?.value){
       const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
 
-      const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, priceRef.current?.value);
+      const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
       await tx.wait();
    
       if(subscribers.length > 0 && descriptionRef.current?.value !== undefined && address){;

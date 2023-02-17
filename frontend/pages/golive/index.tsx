@@ -3,20 +3,22 @@ import { useRef } from "react";
 import { useContract, useSigner } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import Alert from "@/components/UI/Alert";
+import { ethers } from "ethers";
 
 const GoLive = () => {
+    const {data:signer} = useSigner();
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
     const flowRateRef = useRef<HTMLInputElement>(null);
     const priceRef = useRef<HTMLInputElement>(null);
-    const {data:signer} = useSigner();
     const contract = useContract({
         address: contractAddress,
-        // @ts-ignore
-        ABI: ABI,
+        abi: ABI,
         signerOrProvider: signer
     });
     const [streamKey, setStreamKey] = useState<string>('');
+    const [id, setId] = useState<string>('');
+
 
     const createStreamHandler = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -32,17 +34,19 @@ const GoLive = () => {
             })
         })
         const data = await response.json();
-
+        if(priceRef.current?.value){
+            
+            await contract?.addStream(data.id, data.name, descriptionRef.current?.value, data.id, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
+        }    
         setStreamKey(data.streamKey);
-        //call the contract function here
-        console.log(data);
-        console.log('dd', data.streamKey, data.playbackId);
+        setId(data.id);
+
     };
 
 
     return (
         <div className="ml-72 mt-6 w-6/12">
-            { streamKey !== '' && <Alert streamKey={streamKey}/> }
+            { streamKey !== '' && <Alert streamKey={streamKey} id={id}/> }
             <form onSubmit={createStreamHandler}>
                 <label className="block mb-4">
                     <span className="text-md">Name</span>
