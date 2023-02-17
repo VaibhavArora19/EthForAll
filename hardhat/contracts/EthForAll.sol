@@ -9,6 +9,7 @@ contract EthForAll {
         string name;
         string description;
         string streamID;
+        string organization;
         uint flowRate;
         uint price;
         address creator;
@@ -26,6 +27,9 @@ contract EthForAll {
         address creator;
     }
 
+    mapping(string => uint) public organizationBalance;
+    mapping(address => uint) public fundsByUser;
+
     LiveStream[] public streams;
     video[] public videos;
 
@@ -34,8 +38,8 @@ contract EthForAll {
     mapping(string => video) public videoById;
     mapping(string => LiveStream) public streamById;
 
-    function addStream(string memory Id, string memory name, string memory description, string memory streamId, uint flowRate, uint price) public {
-        LiveStream memory newStream = LiveStream(Id, name, description, streamId, flowRate, price, msg.sender);
+    function addStream(string memory Id, string memory name, string memory description, string memory organization, string memory streamId, uint flowRate, uint price) public {
+        LiveStream memory newStream = LiveStream(Id, name, description, streamId, organization, flowRate, price, msg.sender);
         streams.push(newStream);
         streamById[Id] = newStream;
     }
@@ -70,6 +74,12 @@ contract EthForAll {
     function getSingleStream(string memory _id) public view returns(LiveStream memory) {
         return streamById[_id];
     }
+
+    function sendFunds(string memory organization) public payable {
+        organizationBalance[organization] += msg.value;
+        fundsByUser[msg.sender] += msg.value;
+    }
+
     fallback() external payable{}
     receive() external payable{}
 }

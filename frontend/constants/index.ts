@@ -1,4 +1,6 @@
-export const contractAddress = '0xcB059Be3F4fD06f8a2803B6B98b659A5560D7A6f';
+export const contractAddress = '0x51f037a83e81BC0bb5087Ebf61B09bFC4e4C8939';
+
+export const options = ["Turkey Relief Fund", "Army Camp Fund", "Give Foundation"]
 
 export const ABI =[
   {
@@ -20,6 +22,11 @@ export const ABI =[
       {
         "internalType": "string",
         "name": "description",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "organization",
         "type": "string"
       },
       {
@@ -105,6 +112,25 @@ export const ABI =[
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "fundsByUser",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "getAllStreams",
     "outputs": [
@@ -128,6 +154,11 @@ export const ABI =[
           {
             "internalType": "string",
             "name": "streamID",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "organization",
             "type": "string"
           },
           {
@@ -247,6 +278,11 @@ export const ABI =[
             "type": "string"
           },
           {
+            "internalType": "string",
+            "name": "organization",
+            "type": "string"
+          },
+          {
             "internalType": "uint256",
             "name": "flowRate",
             "type": "uint256"
@@ -363,6 +399,38 @@ export const ABI =[
         "type": "string"
       }
     ],
+    "name": "organizationBalance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "organization",
+        "type": "string"
+      }
+    ],
+    "name": "sendFunds",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
     "name": "streamById",
     "outputs": [
       {
@@ -383,6 +451,11 @@ export const ABI =[
       {
         "internalType": "string",
         "name": "streamID",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "organization",
         "type": "string"
       },
       {
@@ -432,6 +505,11 @@ export const ABI =[
       {
         "internalType": "string",
         "name": "streamID",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "organization",
         "type": "string"
       },
       {

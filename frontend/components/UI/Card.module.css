@@ -4,6 +4,11 @@
     cursor: pointer;
 }
 
+.card img {
+    width: 220px;
+    height: 140px;
+}
+
 .thumbnail {
     border-radius: 20px;
 }

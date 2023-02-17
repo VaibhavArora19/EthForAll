@@ -24,7 +24,6 @@ export default function Home() {
 
       (async function(){
         const assets = await contract?.getAllVideos();
-        console.log('assets', assets)
         setVideos(assets);
       })();
     }
@@ -34,13 +33,13 @@ export default function Home() {
 
   return (
     <>
-      {auth.isLoggedIn && <Modal />}
+      {!auth.isLoggedIn && <Modal />}
       <div className={`${styles.main}`}>
       <Theatre />
         <Info title="Live"/>
         <div className="grid md:grid-cols-4 sm:grid-cols-3">
-        {videos.length > 0 && videos.map((asset: {ID: string, name: string, thumbnailCid: string}) => {
-          return <Card key={asset.ID} id={asset.ID} name={asset.name} thumbnail={asset.thumbnailCid} />
+        {videos.length > 0 && videos.map((asset: {ID: string, name: string, thumbnailCid: string, creator:string}) => {
+          return <Card key={asset.ID} id={asset.ID} name={asset.name} thumbnail={asset.thumbnailCid} creator={asset.creator}/>
         })}
       </div>
       </div>

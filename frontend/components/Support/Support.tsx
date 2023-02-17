@@ -24,7 +24,7 @@ export const Support = () => {
 
         if(signer) {
             (async function(){
-                const videoDetails = await contract?.getSingleVideo(id);
+                const videoDetails = await contract?.getSingleStream(id);
                 if(isSuperfluid) {
                     setAmount(videoDetails.flowRate.toString());
                 }else{

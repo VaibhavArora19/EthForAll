@@ -4,11 +4,13 @@ import { useContract, useSigner } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import Alert from "@/components/UI/Alert";
 import { ethers } from "ethers";
+import { options } from "@/constants";
 
 const GoLive = () => {
     const {data:signer} = useSigner();
     const nameRef = useRef<HTMLInputElement>(null);
     const descriptionRef = useRef<HTMLTextAreaElement>(null);
+    const orgRef = useRef<HTMLSelectElement>(null);
     const flowRateRef = useRef<HTMLInputElement>(null);
     const priceRef = useRef<HTMLInputElement>(null);
     const contract = useContract({
@@ -36,7 +38,7 @@ const GoLive = () => {
         const data = await response.json();
         if(priceRef.current?.value){
             
-            await contract?.addStream(data.id, data.name, descriptionRef.current?.value, data.id, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
+            await contract?.addStream(data.id, data.name, descriptionRef.current?.value, orgRef.current?.value, data.id, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
         }    
         setStreamKey(data.streamKey);
         setId(data.id);
@@ -56,6 +58,17 @@ const GoLive = () => {
                     <span className="text-md">Description</span>
                 </label>
                 <textarea name="description" rows={4} placeholder="Short Description" className="rounded-md w-11/12 pl-6 pt-2 mb-6" ref={descriptionRef} required/>
+                <div className="mb-4 ml-2">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Organization
+                </label>
+                <select ref={orgRef} className="select select-bordered w-full max-w-2xl bg-neutral-700">
+                    <option disabled selected >Select Org</option>
+                        {options.map(option => {
+                            return <option>{option}</option>
+                })}
+                </select>
+                </div>
                 <label className="block mb-4">
                     <span className="text-md">Flow Rate</span>
                 </label>

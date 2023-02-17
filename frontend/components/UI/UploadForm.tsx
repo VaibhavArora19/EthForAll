@@ -8,6 +8,7 @@ import { useContract, useSigner, useAccount } from "wagmi";
 import { contractAddress, ABI } from "@/constants";
 import { sendNotification } from "@/push";
 import { ethers } from "ethers";
+import { options } from "@/constants";
 
 type Iprops = {
   video: any,
@@ -20,6 +21,7 @@ const UploadForm = (props: Iprops) => {
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const flowRateRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+  const orgRef = useRef<HTMLSelectElement>(null);
   const {address} = useAccount();
   const ctx = useContext(DataContext);
   const {data: signer} = useSigner();
@@ -50,7 +52,7 @@ const UploadForm = (props: Iprops) => {
     if(titleRef.current?.value && priceRef.current?.value){
       const assetId = await uploadAsset(titleRef.current?.value, ctx.sharedState.video);
 
-      const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, 'Turkey Relief fund', thumbnailCid, videoCid, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
+      const tx = await contract?.addVideo(assetId, titleRef.current?.value, descriptionRef.current?.value, orgRef.current?.value, thumbnailCid, videoCid, flowRateRef.current?.value, ethers.utils.parseEther(priceRef.current?.value));
       await tx.wait();
    
       if(subscribers.length > 0 && descriptionRef.current?.value !== undefined && address){;
@@ -89,6 +91,17 @@ const UploadForm = (props: Iprops) => {
             ref={descriptionRef}
             required
           />
+        </div>
+        <div>
+        <label className="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Organization
+          </label>
+        <select ref={orgRef} className="select select-bordered w-full bg-slate-700 max-w-xl">
+          <option disabled selected >Select Org</option>
+          {options.map(option => {
+            return <option>{option}</option>
+          })}
+        </select>
         </div>
         <div className={classes.input}>
           <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

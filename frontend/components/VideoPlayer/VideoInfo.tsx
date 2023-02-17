@@ -58,6 +58,7 @@ const VideoInfo = (props: Iprops) => {
       <div>
         <h1 className="text-xl font-semibold">{props.name}</h1>
         <p className="mt-2 text-slate-200">{props.description}</p>
+        <p className="text-slate-200 font-sm mt-2">{`By: ${props.creator}`}</p>
       </div>
       <div>
         {isStreamExist ? <button className="btn btn-info mr-2" onClick={cancelStream}>
