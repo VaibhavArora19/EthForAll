@@ -18,13 +18,19 @@ export const Support = () => {
         signerOrProvider: signer
     })
     const router = useRouter();
-    const {id} = router.query;
+    const {id, isLive} = router.query;
 
     useEffect(() => {
 
         if(signer) {
             (async function(){
-                const videoDetails = await contract?.getSingleStream(id);
+                let videoDetails;
+
+                if(isLive==="true"){
+                    videoDetails = await contract?.getSingleStream(id);
+                }else{
+                    videoDetails = await contract?.getSingleVideo(id);
+                }
                 if(isSuperfluid) {
                     setAmount(videoDetails.flowRate.toString());
                 }else{
